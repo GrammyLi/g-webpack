@@ -1,11 +1,9 @@
 {
   "dependencies": {
-    "@babel/core": "7.12.17",
-    "@babel/parser": "7.12.17",
-    "@babel/preset-env": "7.12.17",
-    "@babel/traverse": "7.12.17"
+    "acorn": "^8.4.1",
+    "espree": "^8.0.0"
   },
   "scripts": {
-    "dev": "node entry.js"
+    "dev": "node ./demo/entry.js"
   }
 }
