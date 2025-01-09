@@ -1,8 +1,7 @@
 const { log } = require("./utils");
 
 const codeGeneration = (node) => {
-  // log('n', node)
-  //   Program节点 (Program)：
+  // Program节点 (Program)：
   // 对应整个代码块。遍历 body 数组（代码块中的所有语句）并递归生成每一部分的代码。
   if (node.type === "Program") {
     let body = node.body;
@@ -19,7 +18,7 @@ const codeGeneration = (node) => {
     let c = `${kind} ${declarations}`;
     return c;
   } else if (node.type === "VariableDeclarator") {
-    //     变量定义 (VariableDeclarator)：
+    // 变量定义 (VariableDeclarator)：
     // 用于生成单个变量的声明及赋值语句。
     // 变量名
     let id = codeGeneration(node.id);
@@ -33,13 +32,11 @@ const codeGeneration = (node) => {
     // let c = `${id} = ${init}`
     return c;
   } else if (node.type === "Identifier") {
-    //     标识符 (Identifier)：
-
+    // 标识符 (Identifier)：
     // 生成变量名（比如 x 或 y）。
     return node.name;
   } else if (node.type === "Literal") {
-    //     字面量 (Literal)：
-
+    // 字面量 (Literal)：
     // 生成常量值，比如数字、字符串等。
     return node.raw;
   } else if (node.type === "ImportDeclaration") {
@@ -64,8 +61,7 @@ const codeGeneration = (node) => {
     let local = codeGeneration(node.local);
     return local;
   } else if (node.type === "ArrowFunctionExpression") {
-    //     箭头函数 (ArrowFunctionExpression)：
-
+    //箭头函数 (ArrowFunctionExpression)：
     // 处理箭头函数语法，生成类似 const fn = (x, y) => { return x + y; }; 的代码。
     let params = node.params.map((p) => codeGeneration(p)).join(",");
     let body = codeGeneration(node.body);
@@ -93,21 +89,21 @@ const codeGeneration = (node) => {
     let expression = codeGeneration(node.expression);
     return expression;
   } else if (node.type === "MemberExpression") {
-    //     成员表达式 (MemberExpression)：
+    // 成员表达式 (MemberExpression)：
     // 生成对象属性访问语法，如 obj.property 或 obj['property']。
     let object = codeGeneration(node.object);
     let property = codeGeneration(node.property);
     let c = `${object}.${property}`;
     return c;
   } else if (node.type === "ExportDefaultDeclaration") {
-    //     默认导出 (ExportDefaultDeclaration)：
+    // 默认导出 (ExportDefaultDeclaration)：
     // 生成 export default 语句，转换为 exports['default'] = ...。
     let declaration = codeGeneration(node.declaration);
     // let c = `export default ${declaration}`
     let c = `exports['default'] = ${declaration}`;
     return c;
   } else if (node.type === "ExportNamedDeclaration") {
-    //     命名导出 (ExportNamedDeclaration)：
+    // 命名导出 (ExportNamedDeclaration)：
     // 生成 export { foo, bar } 语句，转换为 exports.foo = foo; exports.bar = bar; 等。
     let specifiers = node.specifiers.map((s) => codeGeneration(s));
 
